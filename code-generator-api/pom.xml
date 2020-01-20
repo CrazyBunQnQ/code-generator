@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zhengqing</groupId>
+    <groupId>org.crazybun.codegen</groupId>
     <artifactId>code-generator-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -117,7 +117,7 @@
 
         <!-- fastdfs所需jar包依赖[注：这里是在本地lib中引入，maven中央仓库中暂无此jar包]，要与<includeSystemScope>true</includeSystemScope>配合使用-->
         <dependency>
-            <groupId>com.zhengqing</groupId>
+            <groupId>org.crazybun.codegen</groupId>
             <artifactId>fastdfs-client-java</artifactId>
             <version>${fastdfs-client-java.version}</version>
             <scope>system</scope>
@@ -149,7 +149,7 @@
 <!--            <version>1.0.0</version>-->
 <!--        </dependency>-->
         <dependency>
-            <groupId>com.zhengqing</groupId>
+            <groupId>org.crazybun.codegen</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>

@@ -48,8 +48,8 @@
 > 数据源配置信息，要在根据数据库字段生成一次代码后才拥有数据可以查看哦，不然会是空数据！
 
 ![在这里插入图片描述](https://images.gitee.com/uploads/images/2019/0922/140826_017bb1cd_1988119.png)
-ex: `${author}` 对应生成 `zhengqing`
- `${package.input}` 对应生成 `com.zhengqing.modules.system.dto.input`
+ex: `${author}` 对应生成 `CrazyBunQnQ`
+ `${package.input}` 对应生成 `org.crazybun.codegen.modules.system.dto.input`
 ![在这里插入图片描述](https://images.gitee.com/uploads/images/2019/0922/140827_2bee52d0_1988119.png)
 另外就需要参考 `Velocity` 模板引擎的基本语法使用了
 这里再例出一个小编配置的实体类模板吧

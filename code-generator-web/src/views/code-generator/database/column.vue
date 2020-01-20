@@ -59,7 +59,7 @@
         queryColumns: [] // 可检索字段
       },
       // packageConfig: {
-      //   parent: "com.zhengqing.demo",
+      //   parent: "org.crazybun.codegen.demo",
       //   moduleName: "test",
       //   entity: "entity",
       //   service: "service",
