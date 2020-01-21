@@ -86,7 +86,7 @@ CREATE TABLE `t_code_project`  (
 -- ----------------------------
 -- Records of t_code_project
 -- ----------------------------
-INSERT INTO `t_code_project` VALUES (1, '项目demo', 1, b'1', '2019-09-10 13:56:35', '2019-09-12 19:25:28');
+INSERT INTO `t_code_project` VALUES (1, '宇信科技', 1, b'1', '2019-09-10 13:56:35', '2019-09-12 19:25:28');
 
 -- ----------------------------
 -- Table structure for t_code_project_package
@@ -429,7 +429,7 @@ CREATE TABLE `t_sys_user`  (
 -- ----------------------------
 -- Records of t_sys_user
 -- ----------------------------
-INSERT INTO `t_sys_user` VALUES (1, 'admin', '0ad1be0abfc90ee593f2a68d3193afedf15fc9141382f6e1492c0629ed6263ac', '郑清', '0', '15183303003', '10086@qq.com', 'http://qzapp.qlogo.cn/qzapp/101536330/86F96F92387D69BD7659C4EC3CD6BD69/100', '1', '123', 'code-generator_token_8775cc36-f687-4db9-860a-338f0ae7d0df', '', '123456', '2019-05-05 16:09:06', '2019-09-19 00:59:47');
+INSERT INTO `t_sys_user` VALUES (1, 'admin', '0ad1be0abfc90ee593f2a68d3193afedf15fc9141382f6e1492c0629ed6263ac', 'CrazyBunQnQ', '0', '18056662914', 'crazybunqnq@gmail.com.com', 'http://qzapp.qlogo.cn/qzapp/101536330/86F96F92387D69BD7659C4EC3CD6BD69/100', '1', '123', 'code-generator_token_8775cc36-f687-4db9-860a-338f0ae7d0df', '', '123456', '2019-05-05 16:09:06', '2019-09-19 00:59:47');
 INSERT INTO `t_sys_user` VALUES (2, 'test', '0ad1be0abfc90ee593f2a68d3193afedf15fc9141382f6e1492c0629ed6263ac', '测试号', '0', '10000', '10000@qq.com', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '1', '123', 'code-generator_token_5d731387-bb0e-4eaa-9415-30268281fcf2', NULL, '123456', '2019-05-05 16:15:06', '2019-09-19 01:47:19');
 
 -- ----------------------------

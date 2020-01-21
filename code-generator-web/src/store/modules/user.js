@@ -86,7 +86,7 @@ const user = {
           //   "data":{
           //     "id":1,
           //     "username":"admin",
-          //     "nickName":"郑清",
+          //     "nickName":"CrazyBunQnQ",
           //     "sex":"0",
           //     "phone":"",
           //     "email":"",

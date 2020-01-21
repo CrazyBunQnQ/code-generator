@@ -1,0 +1,11 @@
+# 指定基础镜像
+FROM arm32v7/maven:3-jdk-8
+# 维护者信息
+MAINTAINER CrazyBunQnQ "crazybunqnq@gmail.com"
+
+RUN echo "-------------------- api环境配置 --------------------"
+
+# 暴露端口
+EXPOSE 9100
+# 设置环境编码UTF-8
+ENV LANG C.UTF-8
