@@ -48,9 +48,14 @@ public class CosFileServiceImpl implements ICosFileService {
     }
 
     @Override
-    public String uploadFile(String key, File localFile) {
+    public String uploadFile(String key, File localFile) throws MyException {
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, localFile);
-        cosclient.putObject(putObjectRequest);
+        try {
+            cosclient.putObject(putObjectRequest);
+        } catch (CosServiceException e) {
+            e.printStackTrace();
+            throw new MyException("腾讯云服务验证失败");
+        }
         Date expiration = new Date(System.currentTimeMillis() + 5 * 60 * 10000);
         URL url = cosclient.generatePresignedUrl(bucketName, key, expiration);
         log.debug(JSON.toJSONString(url));

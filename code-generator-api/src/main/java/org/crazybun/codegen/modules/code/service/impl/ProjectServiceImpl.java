@@ -359,10 +359,20 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         //      2. 存储到网络磁盘
         //      3. 存储到腾讯云
         //      4. 存储到分布式文件系统
-        // 1、采用腾讯oss对象储存下载
-        return cosFileService.uploadFile("code.zip", zipFile);// "http://jxi-1251616562.cos.ap-chengdu.myqcloud.com/code.zip?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDoTv9B0wzA7rNgmJMr8B1d2ECwTmrjNo1%26q-sign-time%3D1561101804%3B1561104804%26q-key-time%3D1561101804%3B1561104804%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3Db6bf47b4e6cbde71df6b064e289b0d00f6150823";
-        // 2、采用fastdfs上传并返回地址下载文件
-//        return FastDfsApiUtils.upload(Constants.PROJECT_ROOT_DIRECTORY + "/document/upload/code.zip", "zip");
+        String downloadType = "Tencent-COS";
+        String downloadUrl = "http://jxi-1251616562.cos.ap-chengdu.myqcloud.com/code.zip?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDoTv9B0wzA7rNgmJMr8B1d2ECwTmrjNo1%26q-sign-time%3D1561101804%3B1561104804%26q-key-time%3D1561101804%3B1561104804%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3Db6bf47b4e6cbde71df6b064e289b0d00f6150823";
+        switch (downloadType) {
+            case "Tencent-COS":
+                // 1、采用腾讯oss对象储存下载
+                downloadUrl = cosFileService.uploadFile("code.zip", zipFile);
+                break;
+            case "FastDFS":
+                // 2、采用fastdfs上传并返回地址下载文件
+                downloadUrl = FastDfsApiUtils.upload(Constants.PROJECT_ROOT_DIRECTORY + "/document/upload/code.zip", "zip");
+                break;
+            default:
+        }
+        return downloadUrl;
     }
 
     /**
