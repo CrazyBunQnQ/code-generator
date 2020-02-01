@@ -15,7 +15,7 @@ spring:
     url: jdbc:mysql://192.168.6.130:3306/code-generator?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&useSSL=false # MySQL在高版本需要指明是否进行SSL连接 解决则加上 &useSSL=false
     name: code-generator
     username: root
-    password: root
+    password: zy26T$b7V8i3g4mW
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
