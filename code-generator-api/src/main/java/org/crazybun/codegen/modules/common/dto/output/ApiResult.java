@@ -1,25 +1,28 @@
 package org.crazybun.codegen.modules.common.dto.output;
 
-import org.crazybun.codegen.modules.common.enumeration.ResultCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.crazybun.codegen.modules.common.enumeration.ResultCode;
 
 /**
- *  <p> API返回参数 </p>
+ * <p> API返回参数 </p>
  *
- * @description :
  * @author : CrazyBunQnQ
+ * @description :
  * @date : 2019/7/20 11:09
  */
 @ApiModel(value = "API返回参数")
 public class ApiResult {
-    // 消息内容
+    /**
+     * 消息内容
+     */
     @ApiModelProperty(value = "响应消息", required = false)
     private String message;
 
-    // 成功或有效为1，失败或无效为0，token过期
+    /**
+     * 成功或有效为1，失败或无效为0，token过期
+     */
     @ApiModelProperty(value = "结果码（1：成功；0：失败；-1：token过期）", required = true)
-//    private Integer code;
     private Integer code;
 
     /*
@@ -31,10 +34,39 @@ public class ApiResult {
     INTERNAL_SERVER_ERROR( 5000, "服务器内部错误" );//服务器内部错误
     */
 
-
-    // 响应中的数据
+    /**
+     * 响应中的数据
+     */
     @ApiModelProperty(value = "响应数据", required = false)
     private Object data;
+
+    public ApiResult() { }
+
+    public ApiResult(Integer code, String msg, Object data) {
+        this.code = code;
+        this.message = msg;
+        this.data = data;
+    }
+
+    public ApiResult(Object data) {
+        this.code = ResultCode.SUCCESS.getCode();
+        this.message = "OK";
+        this.data = data;
+    }
+
+    public ApiResult(String message) {
+        this(ResultCode.SUCCESS.getCode(), message, null);
+    }
+
+    public ApiResult(String message, Integer code) {
+        this.message = message;
+        this.code = code;
+    }
+
+    public ApiResult(Integer code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
     public static ApiResult expired(String message) {
         return new ApiResult(-1, message, null);
@@ -84,42 +116,15 @@ public class ApiResult {
      * @param code：验证码
      * @param message：返回消息内容
      * @param data：返回数据
+     *
      * @return: org.crazybun.codegen.modules.common.dto.output.ApiResult
      */
     public static ApiResult ok(Integer code, String message, Object data) {
         return new ApiResult(code, message, data);
     }
 
-    public ApiResult() { }
-
     public static ApiResult build(Integer code, String msg) {
         return new ApiResult(code, msg, null);
-    }
-
-    public ApiResult(Integer code, String msg, Object data) {
-        this.code = code;
-        this.message = msg;
-        this.data = data;
-    }
-
-    public ApiResult(Object data) {
-        this.code = ResultCode.SUCCESS.getCode();
-        this.message = "OK";
-        this.data = data;
-    }
-
-    public ApiResult(String message) {
-        this(ResultCode.SUCCESS.getCode(), message, null);
-    }
-
-    public ApiResult(String message, Integer code) {
-        this.message = message;
-        this.code = code;
-    }
-
-    public ApiResult(Integer code, String message) {
-        this.code = code;
-        this.message = message;
     }
 
     public String getMessage() {

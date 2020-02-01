@@ -4,6 +4,9 @@ import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.csource.fastdfs.*;
 
+/**
+ * @author CrazyBunQnQ
+ */
 public class FastDfsApiUtils {
 
     public static String CONF_FILENAME  = FastDfsApiUtils.class.getClassLoader().getResource("config/fast_client.conf").getFile();
@@ -20,7 +23,7 @@ public class FastDfsApiUtils {
             TrackerServer trackerServer = tracker.getConnection();
             StorageServer storageServer = null;
             StorageClient storageClient = new StorageClient(trackerServer, storageServer);
-            String fileIds[] = storageClient.upload_file(path, extName,null);
+            String[] fileIds = storageClient.upload_file(path, extName,null);
 //            System.out.println(fileIds.length);
 //            System.out.println("组名：" + fileIds[0]);
 //            System.out.println("路径: " + fileIds[1]);

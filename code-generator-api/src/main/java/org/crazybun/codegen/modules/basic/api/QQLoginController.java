@@ -39,14 +39,14 @@ public class QQLoginController {
      * 使用@value注解获取properties中的文件
      */
     @Value("${redirect_URI}")
-    private String QQ_redirect_URI;
+    private String qqRedirectUri;
 
     /**
      * 在servlet初始化的时候加载，并且只加载一次，和构造代码块的作用类似
      */
     @PostConstruct
     private void init(){
-        log.info( "QQ三方登录回调接口：" + QQ_redirect_URI );
+        log.info( "QQ三方登录回调接口：" + qqRedirectUri);
     }
 
 
@@ -71,7 +71,7 @@ public class QQLoginController {
      * @throws Exception
      */
     @RequestMapping("/afterlogin.do")
-    public void QQAfterlogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void qqAfterlogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.info(" QQ登录成功之后回调函数：======================================================= ");
         response.setContentType("text/html; charset=utf-8");
         PrintWriter out = response.getWriter();
@@ -96,7 +96,7 @@ public class QQLoginController {
             // AccessToken有效时长
             long tokenExpireIn = 0L;
 
-            if (accessTokenObj.getAccessToken().equals("")) {
+            if ("".equals(accessTokenObj.getAccessToken())) {
                 //                我们的网站被CSRF攻击了或者用户取消了授权
                 //                做一些数据统计工作
                 log.info("没有获取到响应参数");

@@ -72,9 +72,13 @@ public class SysUserController extends BaseController {
         return ApiResult.ok("获取系统管理-用户基础信息表列表成功", result);
     }
 
+    /**
+     * 注解说明：groups和默认校验同时应用 - 没有groups的属性和有groups的属性要想同时校验，则必须在value数组中同时指明，启动没有groups的属性通过Default.class来指定
+     * @param input
+     * @return
+     */
     @PostMapping(value = "/save", produces = "application/json;charset=utf-8")
     @ApiOperation(value = "保存系统管理-用户基础信息表", httpMethod = "POST", response = ApiResult.class)
-    // groups和默认校验同时应用 - 没有groups的属性和有groups的属性要想同时校验，则必须在value数组中同时指明，启动没有groups的属性通过Default.class来指定
     public ApiResult save(@RequestBody @Validated User input) {
         Integer id = userService.save(input);
         return ApiResult.ok("保存系统管理-用户基础信息表成功", id);

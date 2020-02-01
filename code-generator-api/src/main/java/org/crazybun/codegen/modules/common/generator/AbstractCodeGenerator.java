@@ -15,9 +15,10 @@ import java.util.Map;
  * <p>
  * 插件基类，用于属性配置 设计成抽象类主要是用于后期可扩展，共享参数配置。
  * </p>
+ * @author CrazyBunQnQ
  */
 @Data
-public abstract class MyAbstractGenerator {
+public abstract class AbstractCodeGenerator {
 
     /**
      * 数据源配置
@@ -30,9 +31,8 @@ public abstract class MyAbstractGenerator {
     private StrategyConfig strategy;
 
     /**
-     * 包 相关配置  TODO 改用map封装动态包
+     * 包 相关配置，用 map 封装动态包
      */
-//    private PackageConfig packageInfo;
     private Map<String,String> packageInfo;
 
     /**

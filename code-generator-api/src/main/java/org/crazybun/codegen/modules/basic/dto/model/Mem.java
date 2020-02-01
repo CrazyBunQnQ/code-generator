@@ -6,6 +6,7 @@ import org.crazybun.codegen.utils.Arith;
 /**
  * 內存相关信息
  *
+ * @author CrazyBunQnQ
  */
 public class Mem {
     /**

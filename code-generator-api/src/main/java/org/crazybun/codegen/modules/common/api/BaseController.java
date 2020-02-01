@@ -16,6 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class BaseController {
 
-    public Logger LOG = LoggerFactory.getLogger( getClass() );
+    public Logger logger = LoggerFactory.getLogger( getClass() );
 
 }

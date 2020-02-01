@@ -10,6 +10,7 @@ import java.util.Date;
 /**
  * JVM相关信息
  *
+ * @author CrazyBunQnQ
  */
 public class Jvm {
     /**
@@ -37,71 +38,58 @@ public class Jvm {
      */
     private String home;
 
-    public double getTotal()
-    {
+    public double getTotal() {
         return Arith.div(total, (1024 * 1024), 2);
     }
 
-    public void setTotal(double total)
-    {
+    public void setTotal(double total) {
         this.total = total;
     }
 
-    public double getMax()
-    {
+    public double getMax() {
         return Arith.div(max, (1024 * 1024), 2);
     }
 
-    public void setMax(double max)
-    {
+    public void setMax(double max) {
         this.max = max;
     }
 
-    public double getFree()
-    {
+    public double getFree() {
         return Arith.div(free, (1024 * 1024), 2);
     }
 
-    public void setFree(double free)
-    {
+    public void setFree(double free) {
         this.free = free;
     }
 
-    public double getUsed()
-    {
+    public double getUsed() {
         return Arith.div(total - free, (1024 * 1024), 2);
     }
 
-    public double getUsage()
-    {
+    public double getUsage() {
         return Arith.mul(Arith.div(total - free, total, 4), 100);
     }
 
     /**
      * 获取JDK名称
      */
-    public String getName()
-    {
+    public String getName() {
         return ManagementFactory.getRuntimeMXBean().getVmName();
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version)
-    {
+    public void setVersion(String version) {
         this.version = version;
     }
 
-    public String getHome()
-    {
+    public String getHome() {
         return home;
     }
 
-    public void setHome(String home)
-    {
+    public void setHome(String home) {
         this.home = home;
     }
 
@@ -116,6 +104,6 @@ public class Jvm {
      * JDK运行时间
      */
     public String getRunTime() {
-        return DateTimeUtils.getDatePoor( new Date(), DateTimeUtils.getServerStartDate() );
+        return DateTimeUtils.getDatePoor(new Date(), DateTimeUtils.getServerStartDate());
     }
 }

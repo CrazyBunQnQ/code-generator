@@ -4,13 +4,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 
 public class TimeUtil {
@@ -24,10 +18,14 @@ public class TimeUtil {
      */
     public static Date getDayBegin() {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0);//0点
-        cal.set(Calendar.MINUTE, 0);//0分
-        cal.set(Calendar.SECOND, 0);//0秒
-        cal.set(Calendar.MILLISECOND, 0);//0毫秒
+        //0点
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        //0分
+        cal.set(Calendar.MINUTE, 0);
+        //0秒
+        cal.set(Calendar.SECOND, 0);
+        //0毫秒
+        cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
 
@@ -39,9 +37,12 @@ public class TimeUtil {
      */
     public static Date getDayEnd() {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 23);//23点
-        cal.set(Calendar.MINUTE, 59);//59分
-        cal.set(Calendar.SECOND, 59);//59秒
+        //23点
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        //59分
+        cal.set(Calendar.MINUTE, 59);
+        //59秒
+        cal.set(Calendar.SECOND, 59);
         return cal.getTime();
     }
 
@@ -53,8 +54,10 @@ public class TimeUtil {
      */
     public static Date getBeginDayOfYesterday() {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(getDayBegin());//当天开始时间
-        cal.add(Calendar.DAY_OF_MONTH, -1);//当天月份天数减1
+        //当天开始时间
+        cal.setTime(getDayBegin());
+        //当天月份天数减1
+        cal.add(Calendar.DAY_OF_MONTH, -1);
         return cal.getTime();
     }
 
@@ -66,8 +69,10 @@ public class TimeUtil {
      */
     public static Date getEndDayOfYesterday() {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(getDayEnd());//当天结束时间
-        cal.add(Calendar.DAY_OF_MONTH, -1);//当天月份天数减1
+        //当天结束时间
+        cal.setTime(getDayEnd());
+        //当天月份天数减1
+        cal.add(Calendar.DAY_OF_MONTH, -1);
         return cal.getTime();
     }
 
@@ -79,8 +84,10 @@ public class TimeUtil {
      */
     public static Date getBeginDayOfTomorrow() {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(getDayBegin());//当天开始时间
-        cal.add(Calendar.DAY_OF_MONTH, 1);//当天月份天数加1
+        //当天开始时间
+        cal.setTime(getDayBegin());
+        //当天月份天数加1
+        cal.add(Calendar.DAY_OF_MONTH, 1);
         return cal.getTime();
     }
 
@@ -92,8 +99,10 @@ public class TimeUtil {
      */
     public static Date getEndDayOfTomorrow() {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(getDayEnd());//当天结束时间
-        cal.add(Calendar.DAY_OF_MONTH, 1);//当天月份天数加1
+        //当天结束时间
+        cal.setTime(getDayEnd());
+        //当天月份天数加1
+        cal.add(Calendar.DAY_OF_MONTH, 1);
         return cal.getTime();
     }
 
@@ -102,6 +111,7 @@ public class TimeUtil {
      * 获取某个日期的开始时间
      *
      * @param d
+     *
      * @return
      */
     public static Timestamp getDayStartTime(Date d) {
@@ -121,6 +131,7 @@ public class TimeUtil {
      * 获取某个日期的结束时间
      *
      * @param d
+     *
      * @return
      */
     public static Timestamp getDayEndTime(Date d) {
@@ -317,6 +328,7 @@ public class TimeUtil {
      *
      * @param beginDate
      * @param endDate
+     *
      * @return
      */
     public static int getDiffDays(Date beginDate, Date endDate) {
@@ -334,6 +346,7 @@ public class TimeUtil {
      *
      * @param beginDate
      * @param endDate
+     *
      * @return
      */
     public static long dateDiff(Date beginDate, Date endDate) {
@@ -348,6 +361,7 @@ public class TimeUtil {
      *
      * @param beginDate
      * @param endDate
+     *
      * @return
      */
     public static Date max(Date beginDate, Date endDate) {
@@ -357,7 +371,8 @@ public class TimeUtil {
         if (endDate == null) {
             return beginDate;
         }
-        if (beginDate.after(endDate)) {//beginDate日期大于endDate
+        //beginDate日期大于endDate
+        if (beginDate.after(endDate)) {
             return beginDate;
         }
         return endDate;
@@ -369,6 +384,7 @@ public class TimeUtil {
      *
      * @param beginDate
      * @param endDate
+     *
      * @return
      */
     public static Date min(Date beginDate, Date endDate) {
@@ -389,13 +405,14 @@ public class TimeUtil {
      * 获取某月该季度的第一个月
      *
      * @param date
+     *
      * @return
      */
     public static Date getFirstSeasonDate(Date date) {
-        final int[] SEASON = {1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4};
+        final int[] season = {1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4};
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        int sean = SEASON[cal.get(Calendar.MONTH)];
+        int sean = season[cal.get(Calendar.MONTH)];
         cal.set(Calendar.MONTH, sean * 3 - 3);
         return cal.getTime();
     }
@@ -406,6 +423,7 @@ public class TimeUtil {
      *
      * @param date
      * @param i
+     *
      * @return
      */
     public static Date getNextDay(Date date, int i) {
@@ -421,6 +439,7 @@ public class TimeUtil {
      *
      * @param date
      * @param i
+     *
      * @return
      */
     public static Date getFrontDay(Date date, int i) {
@@ -437,6 +456,7 @@ public class TimeUtil {
      * @param beginYear
      * @param beginMonth
      * @param k
+     *
      * @return
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -462,6 +482,7 @@ public class TimeUtil {
      * @param endYear
      * @param endMonth
      * @param k
+     *
      * @return
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -496,6 +517,7 @@ public class TimeUtil {
      * date类型进行格式化输出（返回类型：String）
      *
      * @param date
+     *
      * @return
      */
     public static String dateFormat(Date date) {
@@ -509,10 +531,12 @@ public class TimeUtil {
      * 将"2015-08-31 21:08:06"型字符串转化为Date
      *
      * @param str
+     *
      * @return
+     *
      * @throws ParseException
      */
-    public static Date StringToDate(String str) throws ParseException {
+    public static Date string2Date(String str) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = (Date) formatter.parse(str);
         return date;
@@ -523,10 +547,12 @@ public class TimeUtil {
      * 将CST时间类型字符串进行格式化输出
      *
      * @param str
+     *
      * @return
+     *
      * @throws ParseException
      */
-    public static String CSTFormat(String str) throws ParseException {
+    public static String cstFormat(String str) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
         Date date = (Date) formatter.parse(str);
         return dateFormat(date);
@@ -537,10 +563,12 @@ public class TimeUtil {
      * 将long类型转化为Date
      *
      * @param str
+     *
      * @return
+     *
      * @throws ParseException
      */
-    public static Date LongToDare(long str) throws ParseException {
+    public static Date long2Date(long str) throws ParseException {
         return new Date(str * 1000);
     }
 
@@ -552,14 +580,16 @@ public class TimeUtil {
      *
      * @param startDate 开始日期
      * @param endDate   结束日期
+     *
      * @return
+     *
      * @author jqlin
      */
     public static boolean isEffectiveDate(Date startDate, Date endDate) {
         if (startDate == null || endDate == null) {
             return false;
         }
-        long currentTime = new Date().getTime();
+        long currentTime = System.currentTimeMillis();
         if (currentTime >= startDate.getTime()
                 && currentTime <= endDate.getTime()) {
             return true;
@@ -573,6 +603,7 @@ public class TimeUtil {
      *
      * @param secondString：后一个日期
      * @param firstString：前一个日期
+     *
      * @return
      */
     public static String getTwoDay(String secondString, String firstString) {
@@ -592,17 +623,18 @@ public class TimeUtil {
     /**
      * 时间前推或后推分钟,其中JJ表示分钟.
      *
-     * @param StringTime：时间
+     * @param stringTime：时间
      * @param minute：分钟（有正负之分）
+     *
      * @return
      */
-    public static String getPreTime(String StringTime, String minute) {
+    public static String getPreTime(String stringTime, String minute) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String mydate1 = "";
         try {
-            Date date1 = format.parse(StringTime);
-            long Time = (date1.getTime() / 1000) + Integer.parseInt(minute) * 60;
-            date1.setTime(Time * 1000);
+            Date date1 = format.parse(stringTime);
+            long time = (date1.getTime() / 1000) + Integer.parseInt(minute) * 60;
+            date1.setTime(time * 1000);
             mydate1 = format.format(date1);
         } catch (Exception e) {
             return "";
@@ -615,6 +647,7 @@ public class TimeUtil {
      * 将短时间格式字符串转换为时间 yyyy-MM-dd
      *
      * @param strDate
+     *
      * @return
      */
     public static Date strToDate(String strDate) {
@@ -630,6 +663,7 @@ public class TimeUtil {
      *
      * @param nowdate：时间
      * @param delay：前移或后延的天数
+     *
      * @return
      */
     public static String getNextDay(String nowdate, String delay) {
@@ -651,6 +685,7 @@ public class TimeUtil {
      * 判断是否闰年
      *
      * @param ddate
+     *
      * @return
      */
     public static boolean isLeapYear(String ddate) {
@@ -680,6 +715,7 @@ public class TimeUtil {
      * 返回美国时间格式
      *
      * @param str
+     *
      * @return
      */
     public static String getEDate(String str) {
@@ -697,6 +733,7 @@ public class TimeUtil {
      *
      * @param date1
      * @param date2
+     *
      * @return
      */
     public static boolean isSameWeekDates(Date date1, Date date2) {
@@ -731,8 +768,9 @@ public class TimeUtil {
     public static String getSeqWeek() {
         Calendar c = Calendar.getInstance(Locale.CHINA);
         String week = Integer.toString(c.get(Calendar.WEEK_OF_YEAR));
-        if (week.length() == 1)
+        if (week.length() == 1) {
             week = "0" + week;
+        }
         String year = Integer.toString(c.get(Calendar.YEAR));
         return year + "年第" + week + "周";
     }
@@ -743,6 +781,7 @@ public class TimeUtil {
      *
      * @param sdate：日期
      * @param num：星期几（星期天是一周的第一天）
+     *
      * @return
      */
     public static String getWeek(String sdate, String num) {
@@ -779,6 +818,7 @@ public class TimeUtil {
 // 返回星期日所在的日期
                 c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                 break;
+            default:
         }
         return new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
     }
@@ -788,6 +828,7 @@ public class TimeUtil {
      * 根据一个日期，返回是星期几的字符串
      *
      * @param sdate
+     *
      * @return
      */
     public static String getWeek(String sdate) {
@@ -806,6 +847,7 @@ public class TimeUtil {
      * 根据一个日期，返回是星期几的字符串
      *
      * @param sdate
+     *
      * @return
      */
     public static String getWeekStr(String sdate) {
@@ -835,13 +877,16 @@ public class TimeUtil {
      *
      * @param date1
      * @param date2
+     *
      * @return
      */
     public static long getDays(String date1, String date2) {
-        if (date1 == null || date1.equals(""))
+        if (date1 == null || "".equals(date1)) {
             return 0;
-        if (date2 == null || date2.equals(""))
+        }
+        if (date2 == null || "".equals(date2)) {
             return 0;
+        }
         // 转换为标准时间
         SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = null;
@@ -861,6 +906,7 @@ public class TimeUtil {
      * 此函数返回该日历第一行星期日所在的日期
      *
      * @param sdate
+     *
      * @return
      */
     public static String getNowMonth(String sdate) {
@@ -881,6 +927,7 @@ public class TimeUtil {
      * 根据用户传入的时间表示格式，返回当前时间的格式 如果是yyyyMMdd，注意字母y不能大写
      *
      * @param sformat
+     *
      * @return
      */
     public static String getUserDate(String sformat) {
@@ -895,13 +942,15 @@ public class TimeUtil {
      * 返回一个i位数的随机数
      *
      * @param i
+     *
      * @return
      */
     public static String getRandom(int i) {
         Random jjj = new Random();
         // int suiJiShu = jjj.nextInt(9);
-        if (i == 0)
+        if (i == 0) {
             return "";
+        }
         String jj = "";
         for (int k = 0; k < i; k++) {
             jj = jj + jjj.nextInt(9);
@@ -914,6 +963,7 @@ public class TimeUtil {
      * 取得数据库主键 生成格式为yyyymmddhhmmss+k位随机数
      *
      * @param k：表示是取几位随机数，可以自己定
+     *
      * @return
      */
     public static String getNo(int k) {

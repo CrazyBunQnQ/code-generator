@@ -9,7 +9,13 @@ package org.crazybun.codegen.modules.common.enumeration;
  */
 public enum EnumDatabaseType {
 
+    /**
+     * MySQL 数据库
+     */
     MySQL("com.mysql.jdbc.Driver", 1),
+    /**
+     * Oracle 数据库
+     */
     Oracle("oracle.jdbc.driver.OracleDriver", 2);
 
     private String driver;

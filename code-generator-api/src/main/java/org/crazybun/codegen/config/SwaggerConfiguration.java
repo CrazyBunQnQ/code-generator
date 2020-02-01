@@ -26,17 +26,16 @@ import static springfox.documentation.builders.PathSelectors.regex;
  * Warning! When having a lot of REST endpoints, Springfox can become a performance issue. In that
  * case, you can use a specific Spring profile for this class, so that only front-end developers
  * have access to the Swagger view.
+ *
+ * @author CrazyBunQnQ
  */
 @Configuration
 @EnableSwagger2
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 
-    private final Logger LOG = LoggerFactory.getLogger(SwaggerConfiguration.class);
-
     public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
-//    public static final String DEFAULT_INCLUDE_PATTERN = "/.*";
-
+    private final Logger LOG = LoggerFactory.getLogger(SwaggerConfiguration.class);
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -53,6 +52,7 @@ public class SwaggerConfiguration {
      * Swagger Springfox configuration.
      *
      * @param properties the properties of the application
+     *
      * @return the Swagger Springfox configuration
      */
     @Bean

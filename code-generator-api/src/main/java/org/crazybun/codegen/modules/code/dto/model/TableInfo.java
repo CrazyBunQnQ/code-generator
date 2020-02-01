@@ -40,7 +40,6 @@ public class TableInfo implements Serializable {
     private String[] queryColumns;
 
     @ApiModelProperty(value = "包信息")
-//    private PackageConfig packageConfig;
     private Map<String,String> packageConfig;
 
 //    @ApiModelProperty(value = "包信息")

@@ -16,28 +16,30 @@ import java.util.regex.Pattern;
  * @date : 2019/9/18 10:07
  */
 public class IpUtils {
+    private static final String UNKNOWN = "unknown";
 
     /**
      * 获取客户机ip地址
      *
      * @param request:
+     *
      * @return: java.lang.String
      */
     public static String getIpAdrress(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("http_client_ip");
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_X_FORWARDED_FOR");
         }
         // 如果是多级代理，那么取第一个ip为客户ip
@@ -56,25 +58,26 @@ public class IpUtils {
         final byte b0 = addr[0];
         final byte b1 = addr[1];
         // 10.x.x.x/8
-        final byte SECTION_1 = 0x0A;
+        final byte section1 = 0x0A;
         // 172.16.x.x/12
-        final byte SECTION_2 = (byte) 0xAC;
-        final byte SECTION_3 = (byte) 0x10;
-        final byte SECTION_4 = (byte) 0x1F;
+        final byte section2 = (byte) 0xAC;
+        final byte section3 = (byte) 0x10;
+        final byte section4 = (byte) 0x1F;
         // 192.168.x.x/16
-        final byte SECTION_5 = (byte) 0xC0;
-        final byte SECTION_6 = (byte) 0xA8;
+        final byte section5 = (byte) 0xC0;
+        final byte section6 = (byte) 0xA8;
         switch (b0) {
-            case SECTION_1:
+            case section1:
                 return true;
-            case SECTION_2:
-                if (b1 >= SECTION_3 && b1 <= SECTION_4) {
+            case section2:
+                if (b1 >= section3 && b1 <= section4) {
                     return true;
                 }
-            case SECTION_5:
+            case section5:
                 switch (b1) {
-                    case SECTION_6:
+                    case section6:
                         return true;
+                    default:
                 }
             default:
                 return false;
@@ -85,6 +88,7 @@ public class IpUtils {
      * 将IPv4地址转换成字节
      *
      * @param text IPv4地址
+     *
      * @return byte 字节
      */
     public static byte[] textToNumericFormatV4(String text) {
@@ -100,8 +104,9 @@ public class IpUtils {
             switch (elements.length) {
                 case 1:
                     l = Long.parseLong(elements[0]);
-                    if ((l < 0L) || (l > 4294967295L))
+                    if ((l < 0L) || (l > 4294967295L)) {
                         return null;
+                    }
                     bytes[0] = (byte) (int) (l >> 24 & 0xFF);
                     bytes[1] = (byte) (int) ((l & 0xFFFFFF) >> 16 & 0xFF);
                     bytes[2] = (byte) (int) ((l & 0xFFFF) >> 8 & 0xFF);
@@ -109,12 +114,14 @@ public class IpUtils {
                     break;
                 case 2:
                     l = Integer.parseInt(elements[0]);
-                    if ((l < 0L) || (l > 255L))
+                    if ((l < 0L) || (l > 255L)) {
                         return null;
+                    }
                     bytes[0] = (byte) (int) (l & 0xFF);
                     l = Integer.parseInt(elements[1]);
-                    if ((l < 0L) || (l > 16777215L))
+                    if ((l < 0L) || (l > 16777215L)) {
                         return null;
+                    }
                     bytes[1] = (byte) (int) (l >> 16 & 0xFF);
                     bytes[2] = (byte) (int) ((l & 0xFFFF) >> 8 & 0xFF);
                     bytes[3] = (byte) (int) (l & 0xFF);
@@ -122,21 +129,24 @@ public class IpUtils {
                 case 3:
                     for (i = 0; i < 2; ++i) {
                         l = Integer.parseInt(elements[i]);
-                        if ((l < 0L) || (l > 255L))
+                        if ((l < 0L) || (l > 255L)) {
                             return null;
+                        }
                         bytes[i] = (byte) (int) (l & 0xFF);
                     }
                     l = Integer.parseInt(elements[2]);
-                    if ((l < 0L) || (l > 65535L))
+                    if ((l < 0L) || (l > 65535L)) {
                         return null;
+                    }
                     bytes[2] = (byte) (int) (l >> 8 & 0xFF);
                     bytes[3] = (byte) (int) (l & 0xFF);
                     break;
                 case 4:
                     for (i = 0; i < 4; ++i) {
                         l = Integer.parseInt(elements[i]);
-                        if ((l < 0L) || (l > 255L))
+                        if ((l < 0L) || (l > 255L)) {
                             return null;
+                        }
                         bytes[i] = (byte) (int) (l & 0xFF);
                     }
                     break;
@@ -167,7 +177,9 @@ public class IpUtils {
 
     /**
      * 检查IP是否合法
+     *
      * @param ip
+     *
      * @return
      */
     public static boolean ipValid(String ip) {
@@ -176,7 +188,7 @@ public class IpUtils {
         String regex2 = "[1-9]\\d";
         String regex3 = "\\d";
         String regex = "(" + regex0 + ")|(" + regex1 + ")|(" + regex2 + ")|(" + regex3 + ")";
-        regex = "(" + regex + ").(" + regex + ").(" + regex + ").(" + regex  + ")";
+        regex = "(" + regex + ").(" + regex + ").(" + regex + ").(" + regex + ")";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(ip);
         return m.matches();
@@ -186,6 +198,7 @@ public class IpUtils {
      * 获取本地ip 适合windows与linux
      *
      * @param :
+     *
      * @return: java.lang.String
      */
     public static String getLocalIP() {
@@ -212,20 +225,22 @@ public class IpUtils {
 
     /**
      * 把ip转化为整数
+     *
      * @param ip
+     *
      * @return
      */
-    public static long translateIP2Int(String ip){
+    public static long translateIP2Int(String ip) {
         String[] intArr = ip.split("\\.");
         int[] ipInt = new int[intArr.length];
-        for (int i = 0; i <intArr.length ; i++) {
+        for (int i = 0; i < intArr.length; i++) {
             ipInt[i] = new Integer(intArr[i]).intValue();
         }
-        return ipInt[0] * 256 * 256 * 256 + + ipInt[1] * 256 * 256 + ipInt[2] * 256 + ipInt[3];
+        return ipInt[0] * 256 * 256 * 256 + +ipInt[1] * 256 * 256 + ipInt[2] * 256 + ipInt[3];
     }
 
     public static void main(String[] args) {
-        System.out.println( getLocalIP() );
+        System.out.println(getLocalIP());
     }
 
 }

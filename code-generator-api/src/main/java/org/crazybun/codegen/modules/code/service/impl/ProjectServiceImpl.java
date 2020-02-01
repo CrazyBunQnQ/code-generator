@@ -20,7 +20,7 @@ import org.crazybun.codegen.modules.code.mapper.*;
 import org.crazybun.codegen.modules.code.service.IProjectService;
 import org.crazybun.codegen.modules.common.enumeration.EnumDatabaseType;
 import org.crazybun.codegen.modules.common.exception.MyException;
-import org.crazybun.codegen.modules.common.generator.MyGenerator;
+import org.crazybun.codegen.modules.common.generator.CodeGenerator;
 import org.crazybun.codegen.modules.common.service.ICosFileService;
 import org.crazybun.codegen.modules.shiro.utils.ShiroUtils;
 import org.crazybun.codegen.utils.FastDfsApiUtils;
@@ -61,16 +61,16 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
     @Override
     public void listPage(Page<Project> page, ProjectQueryPara filter) {
-        filter.setUserId( ShiroUtils.getUserInfo().getId() );
+        filter.setUserId(ShiroUtils.getUserInfo().getId());
         List<Project> result = projectMapper.selectProjects(page, filter);
         // 根据项目名称去重
 //        result = result.stream().collect( Collectors.collectingAndThen( Collectors.toCollection( () -> new TreeSet<>( Comparator.comparing( Project::getName ) ) ), ArrayList::new ) );
-        page.setRecords( result );
+        page.setRecords(result);
     }
 
     @Override
     public List<Project> list(ProjectQueryPara filter) {
-        filter.setUserId( ShiroUtils.getUserInfo().getId() );
+        filter.setUserId(ShiroUtils.getUserInfo().getId());
         return projectMapper.selectProjects(filter);
     }
 
@@ -83,14 +83,14 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public List<ProjectPackage> treeProjectPackage(ProjectQueryPara filter) {
         // ①、拿到所有包
         List<ProjectPackage> allPackage = projectPackageMapper.selectProjectPackages(filter);
-        if ( CollectionUtils.isEmpty( allPackage ) ){
+        if (CollectionUtils.isEmpty(allPackage)) {
             return null;
         }
         // ②、准备一个空的父包集合
         List<ProjectPackage> parentPackageList = new ArrayList<>();
         // ③、遍历子包 -> 进行对父包的设置
-        for ( ProjectPackage parent : allPackage ) {
-            if ( parent.getParentId() == 0 ) {
+        for (ProjectPackage parent : allPackage) {
+            if (parent.getParentId() == 0) {
                 parentPackageList.add(parent);
             }
         }
@@ -102,18 +102,18 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         return parentPackageList;
     }
 
-    public List<ProjectPackage> getChild(Integer id,String parentPackageName, List<ProjectPackage> allPackage){
+    public List<ProjectPackage> getChild(Integer id, String parentPackageName, List<ProjectPackage> allPackage) {
         // ⑤、存放子包的集合
         List<ProjectPackage> listChild = new ArrayList<>();
         for (ProjectPackage e : allPackage) {
-            if ( e.getParentId() != null && e.getParentId().equals( id ) ) {
-                e.setParentPackageName( parentPackageName );
-                listChild.add( e );
+            if (e.getParentId() != null && e.getParentId().equals(id)) {
+                e.setParentPackageName(parentPackageName);
+                listChild.add(e);
             }
         }
         // ⑥、递归
         for (ProjectPackage e : listChild) {
-            e.setChildren( getChild( e.getId(), e.getName(), allPackage ) );
+            e.setChildren(getChild(e.getId(), e.getName(), allPackage));
         }
         if (listChild.size() == 0) {
             return null;
@@ -123,29 +123,29 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
     @Override
     public Integer saveProject(Project para) {
-        para.setUserId( ShiroUtils.getUserInfo().getId() );
+        para.setUserId(ShiroUtils.getUserInfo().getId());
         ProjectQueryPara projectQueryPara = new ProjectQueryPara();
-        projectQueryPara.setName( para.getName() );
-        projectQueryPara.setUserId( para.getUserId() );
-        List<Project> projectList = projectMapper.selectProjects( projectQueryPara );
-        if ( para.getId() != null ) {
-            if ( !CollectionUtils.isEmpty( projectList ) ){
-                Project project = projectMapper.selectById( para.getId() );
-                if ( !para.getName().equals( project.getName() ) ){
-                    throw new MyException( "项目名称重复，请重新输入！" );
+        projectQueryPara.setName(para.getName());
+        projectQueryPara.setUserId(para.getUserId());
+        List<Project> projectList = projectMapper.selectProjects(projectQueryPara);
+        if (para.getId() != null) {
+            if (!CollectionUtils.isEmpty(projectList)) {
+                Project project = projectMapper.selectById(para.getId());
+                if (!para.getName().equals(project.getName())) {
+                    throw new MyException("项目名称重复，请重新输入！");
                 }
             }
             projectMapper.updateById(para);
         } else {
-            if ( !CollectionUtils.isEmpty( projectList ) ){
-                throw new MyException( "项目名称重复，请重新输入！" );
+            if (!CollectionUtils.isEmpty(projectList)) {
+                throw new MyException("项目名称重复，请重新输入！");
             }
             projectMapper.insert(para);
             // 新建项目是给一个初始化包
             ProjectPackage projectPackage = new ProjectPackage();
-            projectPackage.setName( "org.crazybun.codegen.demo" );
-            projectPackage.setParentId( 0 );
-            projectPackage.setProjectId( para.getId() );
+            projectPackage.setName("org.crazybun.codegen.demo");
+            projectPackage.setParentId(0);
+            projectPackage.setProjectId(para.getId());
             projectPackageMapper.insert(projectPackage);
         }
         return para.getId();
@@ -154,21 +154,21 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     @Override
     public Integer savePackage(ProjectPackage para) {
         ProjectQueryPara projectQueryPara = new ProjectQueryPara();
-        projectQueryPara.setId( para.getProjectId() );
-        projectQueryPara.setName( para.getName() );
-        projectQueryPara.setUserId( ShiroUtils.getUserInfo().getId() );
-        List<ProjectPackage> projectPackageList = projectPackageMapper.selectProjectPackages( projectQueryPara );
-        if ( para.getId() != null ) {
-            if ( !CollectionUtils.isEmpty( projectPackageList ) ){
-                ProjectPackage projectPackage = projectPackageMapper.selectById( para.getId() );
-                if ( !para.getName().equals( projectPackage.getName() ) ){
-                    throw new MyException( "包名重复，请重新输入！" );
+        projectQueryPara.setId(para.getProjectId());
+        projectQueryPara.setName(para.getName());
+        projectQueryPara.setUserId(ShiroUtils.getUserInfo().getId());
+        List<ProjectPackage> projectPackageList = projectPackageMapper.selectProjectPackages(projectQueryPara);
+        if (para.getId() != null) {
+            if (!CollectionUtils.isEmpty(projectPackageList)) {
+                ProjectPackage projectPackage = projectPackageMapper.selectById(para.getId());
+                if (!para.getName().equals(projectPackage.getName())) {
+                    throw new MyException("包名重复，请重新输入！");
                 }
             }
             projectPackageMapper.updateById(para);
         } else {
-            if ( !CollectionUtils.isEmpty( projectPackageList ) ){
-                throw new MyException( "包名重复，请重新输入！" );
+            if (!CollectionUtils.isEmpty(projectPackageList)) {
+                throw new MyException("包名重复，请重新输入！");
             }
             projectPackageMapper.insert(para);
         }
@@ -178,16 +178,18 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     @Override
     public String generateCode(CodeGenerateInput input) throws IOException {
         // 根据数据库ID获取数据库信息
-        Database database = databaseMapper.selectById( input.getTableInfo().getDataBaseId() );
-        TableConfig tableConfig = saveTableConfig( database, input.getTableInfo() );
-        generate( database, input.getTableInfo(), input.getPackageConfig(), tableConfig );
+        Database database = databaseMapper.selectById(input.getTableInfo().getDataBaseId());
+        TableConfig tableConfig = saveTableConfig(database, input.getTableInfo());
+        generate(database, input.getTableInfo(), input.getPackageConfig(), tableConfig);
         return zipCode();
     }
 
     /**
      * 保存该表可检索字段 -> 下次生成代码时做回显使用 -> 也可取消该功能，根据个人需求来 ~
+     *
      * @param database：拿到该数据库关联的项目ID
-     * @param tableInfo: 拿到前端传过来的检索字段
+     * @param tableInfo:             拿到前端传过来的检索字段
+     *
      * @return
      */
     private TableConfig saveTableConfig(Database database, TableInfo tableInfo) {
@@ -207,7 +209,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
         List<TableConfig> tableConfigList = tableConfigMapper.selectTableConfigs(TableConfigQueryPara.builder().projectId(database.getProjectId()).tableName(tableInfo.getTableName()).build());
         TableConfig tableConfig;
-        if ( CollectionUtils.isEmpty(tableConfigList) ) {
+        if (CollectionUtils.isEmpty(tableConfigList)) {
             tableConfig = new TableConfig();
             tableConfig.setProjectId(database.getProjectId());
             tableConfig.setTableName(tableInfo.getTableName());
@@ -215,8 +217,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             tableConfigMapper.insert(tableConfig);
         } else {
             tableConfig = tableConfigList.get(0);
-            tableConfig.setQueryColumns( sb.toString() );
-            tableConfigMapper.updateAllColumnById( tableConfig );
+            tableConfig.setQueryColumns(sb.toString());
+            tableConfigMapper.updateAllColumnById(tableConfig);
         }
         return tableConfig;
     }
@@ -229,13 +231,13 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
      * @param packageConfig：包配置信息
      * @param tableConfig：可检索字段
      */
-    private void generate(Database database, TableInfo tableInfo, Map<String,String> packageConfig, TableConfig tableConfig) {
+    private void generate(Database database, TableInfo tableInfo, Map<String, String> packageConfig, TableConfig tableConfig) {
         List<ProjectTemplate> templateList = projectTemplateMapper.selectTemplates(TemplateQueryPara.builder().projectId(database.getProjectId()).build());
         // model -> 表注释
         String model = tableInfo.getComments().substring(tableInfo.getComments().indexOf("#") + 1);
 
         // 1、代码生成器
-        MyGenerator mpg = new MyGenerator();
+        CodeGenerator mpg = new CodeGenerator();
 
         // 2、全局配置
         GlobalConfig gc = new GlobalConfig();
@@ -267,7 +269,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
         // 3、数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        EnumDatabaseType enumDatabaseType = EnumDatabaseType.getEnum( database.getDbType() );
+        EnumDatabaseType enumDatabaseType = EnumDatabaseType.getEnum(database.getDbType());
         switch (enumDatabaseType) {
             case MySQL:
                 dsc.setDbType(DbType.MYSQL);
@@ -279,35 +281,35 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                 throw new IllegalStateException("Unexpected value: " + enumDatabaseType);
         }
         // com.mysql.jdbc.Driver
-        dsc.setDriverName( database.getDriver() );
-        dsc.setUsername( database.getUser() );
-        dsc.setPassword( database.getPassword() );
+        dsc.setDriverName(database.getDriver());
+        dsc.setUsername(database.getUser());
+        dsc.setPassword(database.getPassword());
         // jdbc:mysql://localhost:3306/ant?useUnicode=true&useSSL=false&characterEncoding=utf8
-        dsc.setUrl( database.getUrl() );
+        dsc.setUrl(database.getUrl());
         mpg.setDataSource(dsc);
 
         // 4、包配置【模块名，包名】
-        mpg.setPackageInfo( packageConfig );
+        mpg.setPackageInfo(packageConfig);
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
         String tablePrefix = "";
-        if ( tableInfo.getTableName().contains("T_") ) {
+        if (tableInfo.getTableName().contains("T_")) {
             tablePrefix = tableInfo.getTableName().replace("T_", "");
-            tablePrefix = "T_" + tablePrefix.substring( 0, tablePrefix.indexOf("_") );
+            tablePrefix = "T_" + tablePrefix.substring(0, tablePrefix.indexOf("_"));
 
         } else if (tableInfo.getTableName().contains("_")) {
             tablePrefix = tableInfo.getTableName();
-            tablePrefix = tablePrefix.substring( 0, tablePrefix.indexOf("_") );
+            tablePrefix = tablePrefix.substring(0, tablePrefix.indexOf("_"));
         }
         // 此处可以修改为您的表前缀  -> 下面代码目的：拿到表前缀并设置  ex:zq_demo -> zq
-        strategy.setTablePrefix( tablePrefix );
+        strategy.setTablePrefix(tablePrefix);
 
         strategy.entityTableFieldAnnotationEnable(true);
         // 表名生成策略
-        strategy.setNaming( NamingStrategy.underline_to_camel );
+        strategy.setNaming(NamingStrategy.underline_to_camel);
         // 需要生成的表
-        strategy.setInclude( tableInfo.getTableName() );
+        strategy.setInclude(tableInfo.getTableName());
         // 表名和字段名是否使用下划线命名
         strategy.setDbColumnUnderline(true);
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
@@ -344,13 +346,14 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
      * 采用hutool工具类进行打包文件
      *
      * @param :
+     *
      * @return: java.lang.String
      */
-    private String zipCode(){
+    private String zipCode() {
         // 将code目录以及其目录下的所有文件目录打包到/document/upload/目录下的code.zip文件中 true:表示带目录显示
         File zipFile = ZipUtil.zip(Constants.PROJECT_ROOT_DIRECTORY + "/document/upload/code", Constants.PROJECT_ROOT_DIRECTORY + "/document/upload/code.zip", true);
         // 删除目录 -> 保证下次生成代码的时候不会累计上次留下的代码
-        FileUtils.DeleteFolder(Constants.PROJECT_ROOT_DIRECTORY + "/document/upload/code");
+        FileUtils.deleteFolder(Constants.PROJECT_ROOT_DIRECTORY + "/document/upload/code");
         // TODO 根据配置的下载方式进行存储
         //      1. 存储到本地磁盘
         //      2. 存储到网络磁盘

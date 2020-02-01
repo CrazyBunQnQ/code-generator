@@ -2,6 +2,9 @@ package org.crazybun.codegen.modules.system.dto.model;
 
 import lombok.Data;
 
+/**
+ * @author CrazyBunQnQ
+ */
 @Data
 public class ButtonVO {
 

@@ -7,6 +7,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
+/**
+ * @author CrazyBunQnQ
+ */
 @EnableConfigurationProperties({MyProperties.class})
 @EnableTransactionManagement
 @SpringBootApplication

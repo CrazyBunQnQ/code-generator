@@ -35,6 +35,7 @@ public class CodeJdbcDaoImpl implements CodeJdbcDao {
      * 更新oracle表注释
      */
     private final String ALTER_TABLE_COMMENT_ORACLE = "ALTER TABLE %s COMMENT '%s';";
+    private final String DB_TYPE_MYSQL = "mysql";
 
     @Override
     public void saveComment(TableInfo tableInfo, Database dbConfig) {
@@ -45,7 +46,7 @@ public class CodeJdbcDaoImpl implements CodeJdbcDao {
             String isNullable = "";
             String isAutoIncrement = "";
 
-            if (dbConfig.getUrl().indexOf("mysql") > 0) {
+            if (dbConfig.getUrl().indexOf(DB_TYPE_MYSQL) > 0) {
                 /*
                  * format(Locale locale, String format, Object... args):用于创建格式化的字符串以及连接多个字符串对象
                  * 简而言之: 转换符 %s -> 字符串类型
@@ -102,7 +103,7 @@ public class CodeJdbcDaoImpl implements CodeJdbcDao {
             // 执行sql语句,获取表名和表注释，在information_schema库下的表tables中的table_name为表名、TABLE_COMMENT为表注释信息
             String strSql = "";
             // indexOf:返回指定字符[mysql]在字符串中第一次出现处的索引，如果此字符串中没有这样的字符，则返回 -1
-            if (dbConfig.getUrl().indexOf("mysql") > 0) {
+            if (dbConfig.getUrl().indexOf(DB_TYPE_MYSQL) > 0) {
                 strSql = "select table_name,TABLE_COMMENT from information_schema.tables where table_schema='" + dbConfig.getDbSchema() + "'";
                 if (StringUtils.isNotBlank(tableName)) {
                     strSql += " AND table_name LIKE '%" + tableName + "%'";
@@ -155,7 +156,7 @@ public class CodeJdbcDaoImpl implements CodeJdbcDao {
             Statement stmt = conn.createStatement();
             String strSql = "";
             // 根据表名【table_name】和库名【table_schema】获取表注释信息，在information_schema库下的表tables中的TABLE_COMMENT为表注释信息
-            if (dbConfig.getUrl().indexOf("mysql") > 0) {
+            if (dbConfig.getUrl().indexOf(DB_TYPE_MYSQL) > 0) {
                 strSql = "select TABLE_COMMENT from information_schema.tables where table_name='" + tableName + "' and table_schema='" + dbConfig.getDbSchema() + "'";
             } else {
                 // 注：无效  原因：数据库不存在表user_tab_comments
@@ -167,7 +168,7 @@ public class CodeJdbcDaoImpl implements CodeJdbcDao {
             }
 
             // 获取该表所有字段信息【column_name：字段名】【column_comment：字段对应注释】【column_type：字段类型】【IS_NULLABLE：是否为空 no or yes】【COLUMN_KEY：主键则值为PRI】【EXTRA：是否自动递增 是：auto_increment】
-            if (dbConfig.getUrl().indexOf("mysql") > 0) {
+            if (dbConfig.getUrl().indexOf(DB_TYPE_MYSQL) > 0) {
                 strSql = "select column_name,column_comment,column_type,IS_NULLABLE,COLUMN_KEY,EXTRA from Information_schema.columns where table_Name = '" + tableName + "' and table_schema='" + dbConfig.getDbSchema() + "'";
             } else {
                 strSql = "select z.COLUMN_NAME,c.comments,z.data_type from user_tab_columns z,user_col_comments c where z.TABLE_NAME=c.table_name and z.COLUMN_NAME=c.column_name and z.Table_Name='" + tableName + "'";
@@ -179,7 +180,7 @@ public class CodeJdbcDaoImpl implements CodeJdbcDao {
                 ColumnInfo colInfo = new ColumnInfo();
                 colInfo.setColumnName(rs.getString(1));
                 colInfo.setComments(rs.getString(2));
-                if (dbConfig.getUrl().indexOf("mysql") > 0) {
+                if (dbConfig.getUrl().indexOf(DB_TYPE_MYSQL) > 0) {
 //                    if ("varchar".equalsIgnoreCase(rs.getString(3))) {
                     colInfo.setColumnType(rs.getString(3));
 //                    }

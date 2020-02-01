@@ -3,6 +3,7 @@ package org.crazybun.codegen.modules.basic.dto.model;
 /**
  * 系统文件相关信息
  *
+ * @author CrazyBunQnQ
  */
 public class SysFile {
     /**

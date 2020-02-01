@@ -58,7 +58,7 @@ public class IndexController extends BaseController {
      * @throws Exception
      */
     @GetMapping("/MP_verify_eRiMMTWC9HkTsWSv.txt")
-    public String getMP_verify_eRiMMTWC9HkTsWSv() {
+    public String getMPVerifyERiMMTWC9HkTsWSv() {
         return "eRiMMTWC9HkTsWSv";
     }
 

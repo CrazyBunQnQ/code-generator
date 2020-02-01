@@ -5,8 +5,12 @@ import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
+import com.qcloud.cos.exception.CosClientException;
+import com.qcloud.cos.exception.CosServiceException;
+import com.qcloud.cos.model.CreateBucketRequest;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.region.Region;
+import org.crazybun.codegen.modules.common.exception.MyException;
 import org.crazybun.codegen.modules.common.service.ICosFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.Date;
 
+/**
+ * @author CrazyBunQnQ
+ */
 @Service
 @Slf4j
 public class CosFileServiceImpl implements ICosFileService {
@@ -32,7 +39,7 @@ public class CosFileServiceImpl implements ICosFileService {
         // 3 生成cos客户端
         cosclient = new COSClient(cred, clientConfig);
         // bucket的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
-        bucketName = "bjj-1256404845";
+        bucketName = "codegen-1256404845";
     }
 
     @Override

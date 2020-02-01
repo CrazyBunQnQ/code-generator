@@ -11,7 +11,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
  */
 public class MD5Util {
 
-//    public static final String SALT = "crazybunqnq";
+    public static final String SALT = "crazybunqnq";
     public static final int HASHITERATIONS = 10;
 
     public static String createMD5Str(String password, String salt){

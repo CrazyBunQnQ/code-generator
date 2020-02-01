@@ -33,6 +33,14 @@ import java.util.regex.Pattern;
  * @date : 2019/9/9 17:11
  */
 public class IdCardValidatorUtils {
+    /**
+     * 15 位身份证号长度
+     */
+    private static final int ID_CARD_LENGTH_15 = 15;
+    /**
+     * 18 位身份证号长度
+     */
+    private static final int ID_CARD_LENGTH_18 = 18;
 
     /**
      * 省，直辖市代码表： { 11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",
@@ -42,7 +50,7 @@ public class IdCardValidatorUtils {
      * 51:"四川",52:"贵州",53:"云南",54:"西藏",61:"陕西",62:"甘肃",
      * 63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外"}
      */
-    protected String codeAndCity[][] = {{"11", "北京"}, {"12", "天津"},
+    protected String[][] codeAndCity = {{"11", "北京"}, {"12", "天津"},
             {"13", "河北"}, {"14", "山西"}, {"15", "内蒙古"}, {"21", "辽宁"},
             {"22", "吉林"}, {"23", "黑龙江"}, {"31", "上海"}, {"32", "江苏"},
             {"33", "浙江"}, {"34", "安徽"}, {"35", "福建"}, {"36", "江西"},
@@ -53,7 +61,7 @@ public class IdCardValidatorUtils {
             {"65", "新疆"}, {"71", "台湾"}, {"81", "香港"}, {"82", "澳门"},
             {"91", "国外"}};
 
-    private String cityCode[] = {"11", "12", "13", "14", "15", "21", "22",
+    private String[] cityCode = {"11", "12", "13", "14", "15", "21", "22",
             "23", "31", "32", "33", "34", "35", "36", "37", "41", "42", "43",
             "44", "45", "46", "50", "51", "52", "53", "54", "61", "62", "63",
             "64", "65", "71", "81", "82", "91"};
@@ -62,12 +70,12 @@ public class IdCardValidatorUtils {
     /**
      * 每位加权因子
      */
-    private static int power[] = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
+    private static int[] power = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
 
     /**
      * 第18位校检码
      */
-    private String verifyCode[] = {"1", "0", "X", "9", "8", "7", "6", "5",
+    private String[] verifyCode = {"1", "0", "X", "9", "8", "7", "6", "5",
             "4", "3", "2"};
 
     /**
@@ -77,7 +85,7 @@ public class IdCardValidatorUtils {
      * @return
      */
     public static boolean isValidatedAllIdcard(String idcard) {
-        if (idcard.length() == 15) {
+        if (idcard.length() == ID_CARD_LENGTH_15) {
             idcard = convertIdcarBy15bit(idcard);
         }
         return isValidate18Idcard(idcard);
@@ -92,7 +100,7 @@ public class IdCardValidatorUtils {
     public static String convertIdcarBy15bit(String idcard) {
         String idcard17 = null;
         // 非15位身份证
-        if (idcard.length() != 15) {
+        if (idcard.length() != ID_CARD_LENGTH_15) {
             return null;
         }
 
@@ -111,11 +119,11 @@ public class IdCardValidatorUtils {
 
             idcard17 = idcard.substring(0, 6) + year + idcard.substring(8);
 
-            char c[] = idcard17.toCharArray();
+            char[] c = idcard17.toCharArray();
             String checkCode = "";
 
             if (null != c) {
-                int bit[] = new int[idcard17.length()];
+                int[] bit = new int[idcard17.length()];
 
                 // 将字符数组转为整型数组
                 bit = converCharToInt(c);
@@ -144,14 +152,14 @@ public class IdCardValidatorUtils {
      */
     public static boolean isValidate18Idcard(String idcard) {
         // 非18位为假
-        if (idcard.length() != 18) {
+        if (idcard.length() != ID_CARD_LENGTH_18) {
             return false;
         }
         // 获取前17位
         String idcard17 = idcard.substring(0, 17);
         // 获取第18位
         String idcard18Code = idcard.substring(17, 18);
-        char c[] = null;
+        char[] c = null;
         String checkCode = "";
         // 是否都为数字
         if (isDigital(idcard17)) {
@@ -161,7 +169,7 @@ public class IdCardValidatorUtils {
         }
 
         if (null != c) {
-            int bit[] = new int[idcard17.length()];
+            int[] bit = new int[idcard17.length()];
             bit = converCharToInt(c);
             int sum17 = 0;
             sum17 = getPowerSum(bit);
@@ -265,6 +273,7 @@ public class IdCardValidatorUtils {
             case 0:
                 checkCode = "1";
                 break;
+            default:
         }
         return checkCode;
     }

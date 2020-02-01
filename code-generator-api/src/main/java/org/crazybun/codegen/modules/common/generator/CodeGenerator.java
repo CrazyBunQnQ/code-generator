@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
-import org.crazybun.codegen.modules.code.entity.CodeProjectVelocityContext;
-import org.crazybun.codegen.modules.code.entity.Project;
 import lombok.Data;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
@@ -17,22 +15,26 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.crazybun.codegen.modules.code.entity.CodeProjectVelocityContext;
+import org.crazybun.codegen.modules.code.entity.Project;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- *  <p> 自定义MyGenerator -> 原本AutoGenerator generator = new AutoGenerator(); </p>
+ * <p> 自定义 CodeGenerator -> 原本AutoGenerator generator = new AutoGenerator(); </p>
  *
  * @description:
  * @author: CrazyBunQnQ
  * @date: 2019/6/20 16:56
  */
 @Data
-public class MyGenerator extends MyAbstractGenerator {
+public class CodeGenerator extends AbstractCodeGenerator {
 
-    private static final Log logger = LogFactory.getLog(MyGenerator.class);
+    private static final Log logger = LogFactory.getLog(CodeGenerator.class);
+    private static final String OS_NAME_MAC = "Mac";
+    private static final String OS_NAME_WIN = "Windows";
 
     /**
      * velocity引擎
@@ -62,11 +64,11 @@ public class MyGenerator extends MyAbstractGenerator {
         // 打开输出目录
         if (config.getGlobalConfig().isOpen()) {
             try {
-                String osName = System.getProperty("os.name" );
+                String osName = System.getProperty("os.name");
                 if (osName != null) {
-                    if (osName.contains("Mac" )) {
+                    if (osName.contains(OS_NAME_MAC)) {
                         Runtime.getRuntime().exec("open " + config.getGlobalConfig().getOutputDir());
-                    } else if (osName.contains("Windows" )) {
+                    } else if (osName.contains(OS_NAME_WIN)) {
                         Runtime.getRuntime().exec("cmd /c start " + config.getGlobalConfig().getOutputDir());
                     } else {
                         logger.debug("文件输出目录:" + config.getGlobalConfig().getOutputDir());
@@ -83,6 +85,7 @@ public class MyGenerator extends MyAbstractGenerator {
      * 分析数据
      *
      * @param config 总配置信息
+     *
      * @return 解析数据结果集
      */
     private Map<String, VelocityContext> analyzeData(MyConfigBuilder config) {
@@ -124,7 +127,7 @@ public class MyGenerator extends MyAbstractGenerator {
 
             // ------------- 模板中可用 替换数据源 ex:${key} -> 替换为 key对应的value值 TODO 后期模板较多需更灵活的话可考虑将map存入redis中，前端多态更新redis源以获取... ------------
             for (Map.Entry<String, String> entry : packageInfo.entrySet()) {
-                ctx.put( entry.getKey(), entry.getValue() );
+                ctx.put(entry.getKey(), entry.getValue());
             }
 
             // package：存包的项目路径【mapper.xml -> org.crazybun.codegen.modules.mapper.xml】  tableInfo：存包名【驼峰命名：mapper.xml -> CodeProjectMapperXml】 table:表的所有信息
@@ -175,16 +178,16 @@ public class MyGenerator extends MyAbstractGenerator {
 
         // ---------------- 将模板配置存入数据库提供给前端页面展示使用 ----------------
         Integer projectId = templateList.get(0).getProjectId();
-        new CodeProjectVelocityContext().delete( new EntityWrapper().eq("project_id", projectId) );
-        ctxData.values().forEach( e -> {
+        new CodeProjectVelocityContext().delete(new EntityWrapper().eq("project_id", projectId));
+        ctxData.values().forEach(e -> {
             for (Object key : e.getKeys()) {
                 Object value = e.get((String) key);
                 // 先删除 再插入
                 CodeProjectVelocityContext velocityContext = new CodeProjectVelocityContext();
-                velocityContext.setProjectId( projectId );
-                velocityContext.setVelocity( (String) key );
+                velocityContext.setProjectId(projectId);
+                velocityContext.setVelocity((String) key);
                 String valueStr = JSONObject.toJSONString(value);
-                velocityContext.setContext( valueStr );
+                velocityContext.setContext(valueStr);
                 velocityContext.insert();
             }
         });
@@ -196,6 +199,7 @@ public class MyGenerator extends MyAbstractGenerator {
      * 获取类名
      *
      * @param classPath
+     *
      * @return
      */
     private String getSuperClassName(String classPath) {
@@ -233,7 +237,7 @@ public class MyGenerator extends MyAbstractGenerator {
         if (CollectionUtils.isNotEmpty(templateList)) {
             templateList.forEach(template -> {
                 // TODO 由下面改为动态  注：文件后缀名需要前端模板处设置 然后保存到数据库中动态获取
-                String outputPath = pathInfo.get( template.getPackageName() ) + File.separator + tableInfo.getPackageInfo().get( template.getPackageName() ) + template.getFileSuffix();
+                String outputPath = pathInfo.get(template.getPackageName()) + File.separator + tableInfo.getPackageInfo().get(template.getPackageName()) + template.getFileSuffix();
                 String templateText = template.getContent();
 //                EnumTemplateType enumTemplateType = EnumTemplateType.getEnum(template.getType());
 //                String outputPath = null;
