@@ -1,5 +1,7 @@
 # node镜像
-FROM arm32v7/node:latest as build-stage
+# FROM arm32v7/node:latest as build-stage
+# FROM arm32v7/node:7.10 as build-stage
+FROM arm32v7/node:6.17 as build-stage
 # 维护者信息
 MAINTAINER CrazyBunQnQ "crazybunqnq@gmail.com"
 
@@ -25,7 +27,7 @@ RUN cnpm run build:prod
 
 # ======================== 上：npm打包  下：nginx运行 ========================
 # nginx镜像
-FROM nginx:1.15.3-alpine as production-stage
+FROM arm32v7/nginx:latest as production-stage
 # 维护者信息
 MAINTAINER CrazyBunQnQ "crazybunqnq@gmail.com"
 

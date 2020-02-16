@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.crazybun.codegen</groupId>
-    <artifactId>code-generator-api</artifactId>
+    <artifactId>code-generator-ssm</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
 
-    <name>code-generator-api</name>
-    <description>springboot+vue代码生成器</description>
+    <name>code-generator-ssm</name>
+    <description>SSM 代码生成器</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -49,7 +49,7 @@
 
         <!-- zq:||=================================================== -->
         <!--本地包的引入-->
-<!--        <java.lib>${project.basedir}/lib</java.lib>-->
+        <!--        <java.lib>${project.basedir}/lib</java.lib>-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -77,6 +77,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>mysql</groupId>-->
+        <!--            <artifactId>mysql-connector-java</artifactId>-->
+        <!--            <scope>runtime</scope>-->
+        <!--        </dependency>-->
 
         <!-- ========================= 常用库依赖 ========================== -->
         <dependency>
@@ -95,11 +100,11 @@
             <version>${commons-lang3.version}</version>
         </dependency>
         <!-- google开发工具库 -->
-<!--        <dependency>-->
-<!--            <groupId>com.google.guava</groupId>-->
-<!--            <artifactId>guava</artifactId>-->
-<!--            <version>${guava.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.google.guava</groupId>-->
+        <!--            <artifactId>guava</artifactId>-->
+        <!--            <version>${guava.version}</version>-->
+        <!--        </dependency>-->
 
         <!-- Hutool工具类 -->
         <dependency>
@@ -143,11 +148,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.oracle</groupId>-->
-<!--            <artifactId>ojdbc6</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.crazybun.codegen</groupId>
             <artifactId>ojdbc6</artifactId>
@@ -222,6 +222,13 @@
             <groupId>org.apache.ant</groupId>
             <artifactId>ant</artifactId>
             <version>${ant.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.28</version>
         </dependency>
 
         <!-- swagger-->

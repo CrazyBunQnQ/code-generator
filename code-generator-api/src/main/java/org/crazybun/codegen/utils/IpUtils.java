@@ -241,6 +241,7 @@ public class IpUtils {
 
     public static void main(String[] args) {
         System.out.println(getLocalIP());
+        System.out.println(getHostIp());
     }
 
 }

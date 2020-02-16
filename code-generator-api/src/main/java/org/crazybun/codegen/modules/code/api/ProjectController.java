@@ -2,6 +2,8 @@ package org.crazybun.codegen.modules.code.api;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.crazybun.codegen.modules.code.dto.input.CodeGenerateInput;
 import org.crazybun.codegen.modules.code.dto.input.ProjectQueryPara;
 import org.crazybun.codegen.modules.code.entity.Project;
@@ -11,8 +13,6 @@ import org.crazybun.codegen.modules.code.mapper.ProjectTemplateMapper;
 import org.crazybun.codegen.modules.code.service.IProjectService;
 import org.crazybun.codegen.modules.common.api.BaseController;
 import org.crazybun.codegen.modules.common.dto.output.ApiResult;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +32,6 @@ import java.util.List;
  * @author: CrazyBunQnQ
  * @description:
  * @date: 2019-09-09
- *
  */
 @RestController
 @RequestMapping("/api/code/project")
@@ -46,11 +45,11 @@ public class ProjectController extends BaseController {
     @Autowired
     ProjectPackageMapper projectPackageMapper;
 
-//    @RequiresPermissions("code:project:list")
+    //  @RequiresPermissions("code:project:list")
     @PostMapping(value = "/listPage", produces = "application/json;charset=utf-8")
     @ApiOperation(value = "获取代码生成器 - 项目管理列表分页", httpMethod = "POST", response = Project.class)
     public ApiResult listPage(@RequestBody ProjectQueryPara filter) {
-        Page<Project> page = new Page<>(filter.getPage(),filter.getLimit());
+        Page<Project> page = new Page<>(filter.getPage(), filter.getLimit());
         projectService.listPage(page, filter);
         return ApiResult.ok("获取项目列表分页成功", page);
     }
@@ -59,7 +58,7 @@ public class ProjectController extends BaseController {
     @ApiOperation(value = "获取代码生成器 - 项目管理列表", httpMethod = "POST", response = Project.class)
     public ApiResult list(@RequestBody ProjectQueryPara filter) {
         List<Project> result = projectService.list(filter);
-        return ApiResult.ok("获取项目列表成功",result);
+        return ApiResult.ok("获取项目列表成功", result);
     }
 
     @PostMapping(value = "/saveOrUpdateProject", produces = "application/json;charset=utf-8")
@@ -76,8 +75,8 @@ public class ProjectController extends BaseController {
         projectTemplateMapper.deleteTemplatesByProjectId(input.getId());
         // 二、删除关联的项目包
         HashMap<String, Object> map = new HashMap<>();
-        map.put( "project_id", input.getId() );
-        projectPackageMapper.deleteByMap( map );
+        map.put("project_id", input.getId());
+        projectPackageMapper.deleteByMap(map);
         // 三、删除该项目
         projectService.deleteById(input.getId());
         return ApiResult.ok("删除项目成功");
@@ -88,21 +87,21 @@ public class ProjectController extends BaseController {
     @PostMapping(value = "/tree", produces = "application/json;charset=utf-8")
     @ApiOperation(value = "获取项目包架构树", httpMethod = "POST", response = Project.class, notes = "获取项目包架构树")
     public ApiResult tree(@RequestBody ProjectQueryPara filter) {
-        if( filter.getId() == null ){
+        if (filter.getId() == null) {
             return ApiResult.fail("关联项目ID为空不能刷新，请关闭弹出窗重新进入！");
         }
         List<ProjectPackage> result = projectService.treeProjectPackage(filter);
-        return ApiResult.ok("获取项目包架构树成功",result);
+        return ApiResult.ok("获取项目包架构树成功", result);
     }
 
     @PostMapping(value = "/listPackage", produces = "application/json;charset=utf-8")
     @ApiOperation(value = "获取项目包类型列表", httpMethod = "POST", response = Project.class, notes = "获取项目包类型列表")
     public ApiResult listPackage(@RequestBody ProjectQueryPara filter) {
-        if( filter.getId() == null ){
+        if (filter.getId() == null) {
             return ApiResult.fail("关联项目ID为空不能刷新，请关闭弹出窗重新进入！");
         }
         List<ProjectPackage> result = projectService.listPackage(filter);
-        return ApiResult.ok("获取项目包类型成功",result);
+        return ApiResult.ok("获取项目包类型成功", result);
     }
 
     @PostMapping(value = "/saveOrUpdatePackage", produces = "application/json;charset=utf-8")
@@ -115,31 +114,31 @@ public class ProjectController extends BaseController {
     @PostMapping(value = "/deletePackage", produces = "application/json;charset=utf-8")
     @ApiOperation(value = "删除代码生成器 - 项目包", httpMethod = "POST", response = ApiResult.class)
     public ApiResult deletePackage(@RequestBody ProjectQueryPara input) {
-        List<ProjectPackage> projectPackageList = projectPackageMapper.selectList( new EntityWrapper<ProjectPackage>().eq( "parent_id", input.getId() ) );
-        if( !CollectionUtils.isEmpty( projectPackageList ) ){
+        List<ProjectPackage> projectPackageList = projectPackageMapper.selectList(new EntityWrapper<ProjectPackage>().eq("parent_id", input.getId()));
+        if (!CollectionUtils.isEmpty(projectPackageList)) {
             return ApiResult.fail("该包下存在子包，请先删除子包！");
         }
-        ProjectPackage projectPackage = projectPackageMapper.selectById( input.getId() );
-        if ( projectPackage.getParentId() == 0 ){
+        ProjectPackage projectPackage = projectPackageMapper.selectById(input.getId());
+        if (projectPackage.getParentId() == 0) {
             return ApiResult.fail("Sorry，您不能删除顶级父包！");
         }
-        projectPackageMapper.deleteById( input.getId() );
+        projectPackageMapper.deleteById(input.getId());
         return ApiResult.ok("删除包成功");
     }
 
 
-//    @PostMapping(value = "/detail", produces = "application/json;charset=utf-8")
-//    @ApiOperation(value = "根据ID获取代码生成器 - 项目管理信息", httpMethod = "POST", response = ApiResult.class)
-//    public ApiResult detail(@RequestBody ProjectQueryPara input) {
-//        Project2 entity = projectService.selectById(input.getId());
-//        return ApiResult.ok("根据ID获取代码生成器 - 项目管理信息成功", entity);
-//    }
+    // @PostMapping(value = "/detail", produces = "application/json;charset=utf-8")
+    // @ApiOperation(value = "根据ID获取代码生成器 - 项目管理信息", httpMethod = "POST", response = ApiResult.class)
+    // public ApiResult detail(@RequestBody ProjectQueryPara input) {
+    //     Project2 entity = projectService.selectById(input.getId());
+    //     return ApiResult.ok("根据ID获取代码生成器 - 项目管理信息成功", entity);
+    // }
 
     @PostMapping(value = "/generate", produces = "application/json;charset=utf-8")
     @ApiOperation(value = "生成代码", httpMethod = "POST", response = ApiResult.class, notes = "生成代码")
     public ApiResult generate(@RequestBody CodeGenerateInput input) throws IOException {
         // 代码生成到指定目录
-        return ApiResult.ok("生成代码成功", projectService.generateCode( input ) );
+        return ApiResult.ok("生成代码成功", projectService.generateCode(input));
     }
 
 }
