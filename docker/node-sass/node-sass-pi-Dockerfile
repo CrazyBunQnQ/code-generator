@@ -1,0 +1,11 @@
+# node镜像
+FROM arm32v7/node:latest as build-stage
+# 维护者信息
+MAINTAINER CrazyBunQnQ "crazybunqnq@gmail.com"
+
+RUN echo "-------------------- node-sass 环境配置 --------------------"
+# 拷贝 arm 架构 node-sass 到容器中
+WORKDIR /node-sass
+COPY ./node-sass-linux-arm-79.node .
+RUN npm install node-sass --sass-binary-path=/node-sass/node-sass-linux-arm-79.node
+RUN rm -r /node-sass

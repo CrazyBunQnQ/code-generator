@@ -1,7 +1,5 @@
 # node镜像
-# FROM arm32v7/node:latest as build-stage
-# FROM arm32v7/node:7.10 as build-stage
-FROM arm32v7/node:6.17 as build-stage
+FROM crazybun/node-sass-arm32v7:latest as build-stage
 # 维护者信息
 MAINTAINER CrazyBunQnQ "crazybunqnq@gmail.com"
 
