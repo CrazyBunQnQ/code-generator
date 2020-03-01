@@ -54,7 +54,7 @@
             <li> 缓存：Redis</li>
             <li> 工具类集合：Hutool</li>
             <li> 和微信端对接工具：weixin-java-tools</li>
-            <li> 内网穿透工具：Natapp</li>
+            <li> 内网穿透工具：FRP</li>
           </ol>
           <div class="text-right">
             <span class="fl">QQ交流群:790782152</span>

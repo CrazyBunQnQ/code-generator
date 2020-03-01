@@ -8,7 +8,7 @@
             <span>项目介绍</span>
           </div>
           <div style="font-size: 15px;text-indent: 2em;padding: 0px;">
-            基于Spring Boot+Vue+Shiro前后端分离的代码生成器
+            基于 Spring Boot + Vue + Shiro 前后端分离的代码生成器
           </div>
           <h3>技术</h3>
           <ol>
@@ -19,7 +19,7 @@
             <li> 缓存：Redis</li>
             <li> 权限：Shiro</li>
             <li> 工具类集合：Hutool</li>
-            <li> 内网穿透工具：Natapp</li>
+            <li> 内网穿透工具：FRP</li>
           </ol>
           <!--<div class="text-right">
             <el-button type="primary" @click.native="jumpUrl('web')">前端项目地址</el-button>
