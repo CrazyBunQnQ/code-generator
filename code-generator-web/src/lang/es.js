@@ -80,6 +80,7 @@ export default {
     username: 'Usuario',
     password: 'Contraseña',
     any: 'nada',
+    StayTunedForRegistration: 'Stay tuned for registration',
     thirdparty: 'Conectar con',
     thirdpartyTips: 'No se puede simular en local, así que combine su propia simulación de negocios. ! !'
   },

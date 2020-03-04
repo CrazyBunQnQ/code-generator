@@ -21,4 +21,4 @@ EXPOSE 8100
 # 使用daemon off的方式将nginx运行在前台保证镜像不至于退出
 #CMD ["nginx", "-g", "daemon off;"]
 
-# docker run -itd --name codeine -p 8100:8100 --restart=always arm32v7/codegen-web
+# docker run -itd --name codegen-web -p 8100:8100 --restart=always arm32v7/codegen-web
