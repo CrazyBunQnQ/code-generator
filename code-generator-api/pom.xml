@@ -49,7 +49,7 @@
 
         <!-- zq:||=================================================== -->
         <!--本地包的引入-->
-<!--        <java.lib>${project.basedir}/lib</java.lib>-->
+        <!--        <java.lib>${project.basedir}/lib</java.lib>-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -62,7 +62,7 @@
         <oshi.version>4.2.1</oshi.version>
         <fastdfs-client-java.version>0.0.1-SNAPSHOT</fastdfs-client-java.version>
         <shiro-spring.version>1.4.0</shiro-spring.version>
-        <shiro-redis.version>3.1.0</shiro-redis.version>
+        <shiro-redis.version>3.2.10</shiro-redis.version>
         <mybatis-plus-boot-starter.version>2.2.0</mybatis-plus-boot-starter.version>
     </properties>
 
@@ -95,11 +95,11 @@
             <version>${commons-lang3.version}</version>
         </dependency>
         <!-- google开发工具库 -->
-<!--        <dependency>-->
-<!--            <groupId>com.google.guava</groupId>-->
-<!--            <artifactId>guava</artifactId>-->
-<!--            <version>${guava.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.google.guava</groupId>-->
+        <!--            <artifactId>guava</artifactId>-->
+        <!--            <version>${guava.version}</version>-->
+        <!--        </dependency>-->
 
         <!-- Hutool工具类 -->
         <dependency>
@@ -143,11 +143,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.oracle</groupId>-->
-<!--            <artifactId>ojdbc6</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.oracle</groupId>-->
+        <!--            <artifactId>ojdbc6</artifactId>-->
+        <!--            <version>1.0.0</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.crazybun.codegen</groupId>
             <artifactId>ojdbc6</artifactId>
@@ -201,7 +201,7 @@
         </dependency>
         <!-- Shiro-redis插件 -->
         <dependency>
-            <groupId>org.crazycake</groupId>
+            <groupId>com.github.manondidi</groupId>
             <artifactId>shiro-redis</artifactId>
             <version>${shiro-redis.version}</version>
         </dependency>
@@ -317,7 +317,8 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <copy todir="src/main/docker" file="target/${project.artifactId}-${project.version}.${project.packaging}"></copy>
+                                <copy todir="src/main/docker"
+                                      file="target/${project.artifactId}-${project.version}.${project.packaging}"></copy>
                             </tasks>
                         </configuration>
                         <goals>
@@ -328,4 +329,12 @@
             </plugin>
         </plugins>
     </build>
+
+    <!-- 第三方库 -->
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 </project>
